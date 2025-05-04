@@ -1,7 +1,7 @@
 import { getToken } from "./auth"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8081');
-//const API_URL = ""
+//const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080');
+const API_URL = 'https://byteandblog.com';
 // Helper function to handle API responses
 async function handleResponse(response: Response) {
   if (!response.ok) {

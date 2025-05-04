@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   },
   // Fix the assetPrefix to start with a leading slash
   env: {
-    NEXT_PUBLIC_API_URL: 'https://byteandblog.com/api',
+    NEXT_PUBLIC_API_URL: 'https://byteandblog.com',
   },
 };
 
