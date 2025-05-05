@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -8,7 +8,6 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
     "*.{js,ts,jsx,tsx,mdx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -52,14 +51,6 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom brand colors
-        brand: {
-          primary: "#3B82F6", // Blue
-          secondary: "#10B981", // Green
-          accent: "#8B5CF6", // Purple
-          light: "#EFF6FF", // Light blue
-          dark: "#1E3A8A", // Dark blue
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -68,22 +59,48 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
+          from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: 0 },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-  plugins: [
-    require("tailwindcss-animate")
-  ],
-}    },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "100%",
+            color: "var(--tw-prose-body)",
+            a: {
+              color: "var(--tw-prose-links)",
+              "&:hover": {
+                color: "var(--tw-prose-links-hover)",
+              },
+            },
+            code: {
+              color: "var(--tw-prose-code)",
+              backgroundColor: "var(--tw-prose-code-bg)",
+              padding: "0.2em 0.4em",
+              borderRadius: "0.25rem",
+              fontWeight: "500",
+            },
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
+          },
+        },
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
   variants: {
     extend: {
       backgroundColor: ["active"],

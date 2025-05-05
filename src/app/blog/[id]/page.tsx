@@ -1,8 +1,6 @@
 import BlogPostPageClient from "./BlogPostPageClient"
 
-
-//export const dynamicParams = true; // Allow dynamic rendering for non-pre-rendered IDs
-
+// This function tells Next.js which routes to pre-render at build time
 export async function generateStaticParams() {
   try {
     // For static export, we'll pre-render a few common IDs

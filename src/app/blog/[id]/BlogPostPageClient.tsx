@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { CommentSection } from "@/components/comment-section"
 import { fetchBlogPost } from "@/lib/api"
+import BlogContent from "@/components/blog/blog-content" // Import the BlogContent component
 
 export default function BlogPostPageClient() {
   const params = useParams()
@@ -106,7 +107,8 @@ export default function BlogPostPageClient() {
         ))}
       </div>
 
-      <div className="prose prose-lg max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }} />
+      {/* Replace dangerouslySetInnerHTML with BlogContent component */}
+      <BlogContent content={post.content} />
 
       <CommentSection postId={id} />
     </article>

@@ -96,10 +96,10 @@ export default function AboutPage() {
         </div>
 
         <div className="md:w-2/3">
-          <h2 className="text-2xl font-bold mb-4">Hello, I'm Sunil Kuamr</h2>
+          <h2 className="text-2xl font-bold mb-4">Hello, I'm Sunil Kumar</h2>
 
           <p className="mb-4">
-            I'm a full-stack developer with over 7 years of experience building web applications and digital experiences
+            I&apos;m a full-stack developer with over 7 years of experience building web applications and digital experiences
             that users love.
           </p>
 
