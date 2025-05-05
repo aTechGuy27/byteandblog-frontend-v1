@@ -3,8 +3,8 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import { getToken } from "@/lib/auth"
 import Image from "next/image"
-import { getProxiedImageUrl } from "@/lib/api-utils"
 
 interface AuthenticatedImageProps {
   src: string | null
@@ -21,16 +21,53 @@ export function AuthenticatedImage({ src, alt, className, width, height, fallbac
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!src) {
-      setError(true)
-      setLoading(false)
-      return
+    let isMounted = true
+    let objectUrl: string | null = null
+
+    const fetchImage = async () => {
+      if (!src) {
+        setError(true)
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+        setError(false)
+
+        const token = getToken()
+        const response = await fetch(src, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        })
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch image: ${response.status}`)
+        }
+
+        const blob = await response.blob()
+        objectUrl = URL.createObjectURL(blob)
+
+        if (isMounted) {
+          setImageSrc(objectUrl)
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error("Error loading image:", error)
+        if (isMounted) {
+          setError(true)
+          setLoading(false)
+        }
+      }
     }
 
-    // Use our proxy function to get the correct URL
-    const proxiedUrl = getProxiedImageUrl(src)
-    setImageSrc(proxiedUrl)
-    setLoading(false)
+    fetchImage()
+
+    return () => {
+      isMounted = false
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl)
+      }
+    }
   }, [src])
 
   if (loading) {
@@ -60,7 +97,6 @@ export function AuthenticatedImage({ src, alt, className, width, height, fallbac
         height={height}
         className={className}
         onError={() => setError(true)}
-        unoptimized // Use unoptimized for external images
       />
     )
   }

@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { login as apiLogin, getUserProfile } from "@/lib/api"
 import { setToken, removeToken, isTokenValid, getDecodedToken, isAdmin } from "@/lib/auth"
-import { getProxiedImageUrl } from "@/lib/api-utils"
 
 interface User {
   id: number
@@ -35,15 +34,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const profileData = await getUserProfile()
       if (profileData) {
-        // Process the profile image URL to use our proxy
-        const profileImage = profileData.profileImage ? getProxiedImageUrl(profileData.profileImage) : undefined
-
         setUser({
           id: profileData.id,
           name: profileData.name || "User",
           email: profileData.email || "",
           role: profileData.role,
-          profileImage,
+          profileImage: profileData.profileImage,
         })
       }
     } catch (error) {
@@ -85,13 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // If the login response includes user data, use it directly
     if (response.user) {
-      // Process the profile image URL to use our proxy
-      const profileImage = response.user.profileImage ? getProxiedImageUrl(response.user.profileImage) : undefined
-
-      setUser({
-        ...response.user,
-        profileImage,
-      })
+      setUser(response.user)
     } else {
       // Otherwise, extract user data from the token
       const decodedToken = getDecodedToken()
